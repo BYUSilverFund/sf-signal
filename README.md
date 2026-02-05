@@ -7,11 +7,11 @@ A template project for developing, researching, and backtesting trading signals.
 ```
 sf-signal/
 ├── app/
-│   ├── signal_research.py        # Explore and develop signal ideas (do not edit)
 │   ├── research.py               # Analyze signal characteristics (do not edit)
 │   ├── production.py             # View backtest performance (do not edit)
 │   └── run_backtest.py           # Run the backtest (edit config only)
 ├── src/
+|   ├── signal_research.py        # Explore and develop signal ideas (edit this)
 │   └── create_signal.py          # Your signal implementation (edit this)
 ├── data/
 │   ├── signal.parquet            # Output: Your signal
@@ -100,34 +100,11 @@ python app/run_backtest.py
 marimo edit app/production.py
 ```
 
-## Modifying Your Signal
-
-Edit `src/create_signal.py` to customize:
-
-- **Date range**: Change `start_date` and `end_date`
-- **Data columns**: Modify the columns loaded from CRSP
-- **Signal logic**: Replace or extend the signal calculation
-- **Output path**: Change the default save location
-
-Example:
-```python
-def create_signal(output_path: str = "data/signal.parquet"):
-    # Your custom logic here
-    signal_df = df.select([
-        pl.col("date"),
-        pl.col("barrid"),
-        pl.col("your_signal_calculation").alias("alpha")
-    ])
-    AlphaSchema.write_parquet(signal_df, output_path)
-```
-
-## Template Files (Do Not Edit)
+## Template Files (Do Not Need to Edit)
 
 The following files in the `app/` folder are templates and should not be modified:
-- `app/signal_research.py` - Use for signal exploration and development
 - `app/research.py` - Automatically loads and analyzes your signal
 - `app/production.py` - Automatically loads and displays backtest results
-- `app/run_backtest.py` - Runs the backtest (only edit configuration if needed)
 
 **All signal customization happens in `src/create_signal.py`.**
 
@@ -138,37 +115,6 @@ Update `run_backtest.py` if needed:
 - `gamma`: Transaction costs or risk aversion parameter
 - `constraints`: Add portfolio constraints
 - `slurm`: Adjust computational resources
-
-## Troubleshooting
-
-### Signal file not found
-- Ensure `python src/create_signal.py` was run successfully
-- Check that `data/signal.parquet` exists
-
-### Backtest results missing
-- Check that `python src/run_backtest.py` completed
-- Verify `data/weights.parquet` exists
-- Check logs in the `logs/` directory
-
-### Data loading errors
-- Verify CRSP data is available
-- Check date ranges are valid
-- Ensure required columns are available
-
-## Environment
-
-- Python 3.13+
-- Dependencies: See `pyproject.toml`
-
-Install dependencies:
-```bash
-pip install -e .
-```
-
-Or with uv:
-```bash
-uv sync
-```
 
 ## Next Steps
 
