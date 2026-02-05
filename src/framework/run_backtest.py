@@ -18,7 +18,7 @@ def run_backtest():
     config = BacktestConfig(
         signal_name="my_first_signal",
         data_path=signal_path,
-        gamma=0.0, # Risk aversion? Assuming 0 for now
+        gamma=0.05, # Risk aversion? Assuming 0.05 for now
         project_root=project_root,
         byu_email="user@byu.edu", # Update this
         constraints=[], # Add constraints if needed
@@ -31,7 +31,6 @@ def run_backtest():
     
     # Run the backtest
     # Note: submit(dry_run=False) will likely submit to Slurm or run locally depending on implementation
-    print("Submitting backtest...")
     runner.submit(dry_run=False)
 
 if __name__ == "__main__":
